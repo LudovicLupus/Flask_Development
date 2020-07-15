@@ -26,6 +26,7 @@ posts = [
 def hello_world():
     return '<h1>Hello, world!</h1>'     # Renders valid HTML
 
+
 @app.route('/')         # Decorator used to map URLs to functions
 @app.route('/home')     # You can have multiple routes to the same page
 def index():
@@ -36,11 +37,12 @@ def index():
 @app.route('/about')
 def about():
     # return '<h1>About page</h1>'
-    return render_template('about.html')
+    return render_template('about.html', title='About')
 
 @app.route('/blog')
 def blog():
     return render_template('blog.html', posts=posts)
+
 
 if __name__ == '__main__':      # This conditional runs in Flask app in debug
     app.run(debug=True)         # mode if script is being ran directly
