@@ -44,6 +44,9 @@ def about():
 def blog():
     return render_template('blog.html', posts=posts)
 
+@app.route('/tomato')
+def tomato():
+    return render_template('tomatoes.html', title='Tomato page for tomato heads')
 
 if __name__ == '__main__':      # This conditional runs in Flask app in debug
     app.run(debug=True)         # mode if script is being ran directly
