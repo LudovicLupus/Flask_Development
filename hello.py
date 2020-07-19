@@ -5,6 +5,8 @@
 from flask import Flask
 from flask import render_template   # rendering html files
 from flask import url_for           # rendering static css files
+from flask import flash             # for flashing messages (modifications made to layout.html template for this)
+from flask import redirect          # redirect to another route url
 from forms import RegistrationForm, LoginForm   # Importing forms from forms.py
 
 app = Flask(__name__)
@@ -53,11 +55,15 @@ def blog():
 def tomato():
     return render_template('tomatoes.html', title='Tomato page for tomato heads')
 
+
 ### FORM ROUTES ###
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     # Create an instance of your RegistrationForm to pass to a template
     form = RegistrationForm()
+    if form.validate_on_submit():
+        flash(f'Account created for {form.username.data}!', 'success')
+        return redirect(url_for('blog'))
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/login')
