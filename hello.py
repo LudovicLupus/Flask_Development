@@ -1,10 +1,15 @@
-# Building a basic flask app
+##################################
+### Building a basic flask app ###
+##################################
 
 from flask import Flask
-from flask import render_template
-from flask import url_for   # For rendering static css files
+from flask import render_template   # rendering html files
+from flask import url_for           # rendering static css files
+from forms import RegistrationForm, LoginForm   # Importing forms from forms.py
 
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = 'b01a54d78abbef243757547790d122ea'   # Convert this to environment variable later...
 
 # The variable 'posts' simulates a database response (two posts shown here)
 # i.e. this is dummy data
@@ -47,6 +52,7 @@ def blog():
 @app.route('/tomato')
 def tomato():
     return render_template('tomatoes.html', title='Tomato page for tomato heads')
+
 
 if __name__ == '__main__':      # This conditional runs in Flask app in debug
     app.run(debug=True)         # mode if script is being ran directly

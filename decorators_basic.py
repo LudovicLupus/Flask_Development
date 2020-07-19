@@ -1,4 +1,6 @@
-# python decorators
+#########################
+### Python Decorators ###
+#########################
 
 def my_logger(orig_func):
     import logging
@@ -20,6 +22,10 @@ def display_info(name, age):
                                             # the original "display_info" function
 
 display_info("Luis", 26)
+
+
+
+
 
 
 
