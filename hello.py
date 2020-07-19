@@ -53,6 +53,19 @@ def blog():
 def tomato():
     return render_template('tomatoes.html', title='Tomato page for tomato heads')
 
+### FORM ROUTES ###
+@app.route('/register')
+def register():
+    # Create an instance of your RegistrationForm to pass to a template
+    form = RegistrationForm()
+    return render_template('register.html', title='Register', form=form)
+
+@app.route('/login')
+def login():
+    # Create an instance of your RegistrationForm to pass to a template
+    form = LoginForm()
+    return render_template('login.html', title='Login', form=form)
+
 
 if __name__ == '__main__':      # This conditional runs in Flask app in debug
     app.run(debug=True)         # mode if script is being ran directly
