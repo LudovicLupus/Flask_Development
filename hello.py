@@ -55,8 +55,9 @@ def blog():
 def tomato():
     return render_template('tomatoes.html', title='Tomato page for tomato heads')
 
-
+###################
 ### FORM ROUTES ###
+###################
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     # Create an instance of your RegistrationForm to pass to a template
@@ -66,10 +67,16 @@ def register():
         return redirect(url_for('blog'))
     return render_template('register.html', title='Register', form=form)
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     # Create an instance of your RegistrationForm to pass to a template
     form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data  == 'admin@blog.com' and form.password.data == 'password':
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('blog'))
+        else:
+            flash('Login attempt unsuccessful. Please check username and password.', 'danger')
     return render_template('login.html', title='Login', form=form)
 
 
