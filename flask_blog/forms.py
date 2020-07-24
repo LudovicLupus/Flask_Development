@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm  # Writing python classes that are representative of our forms (EXTEND this)
 from wtforms import StringField, PasswordField, SubmitField, BooleanField  # The kind of form field
-from wtforms.validators import DataRequired, Length, Email, EqualTo  # VALIDATORS also come as classes
-
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError  # VALIDATORS also come as classes
+from flask_blog.models import User
 
 # Say you want to make a registration form - create registration class
 class RegistrationForm(FlaskForm):  # Extend the FlaskForm class for form creation
@@ -11,6 +11,15 @@ class RegistrationForm(FlaskForm):  # Extend the FlaskForm class for form creati
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign up')     # You need a submit button
 
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError('That username is already taken. Please enter a different one.')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError('That email is already taken. Please enter a different one.')
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])     # Using email to log in
