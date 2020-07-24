@@ -7,6 +7,8 @@ from flask_blog.forms import RegistrationForm, LoginForm   # Importing forms fro
 from flask_blog.models import User, Post
 from flask_blog import app, db, bcrypt
 from flask_login import login_user
+from flask_login import logout_user
+from flask_login import current_user    # For accessing the logged-in user
 
 # The variable 'posts' simulates a database response (two posts shown here)
 # i.e. this is dummy data
@@ -59,6 +61,9 @@ def tomato():
 ###################
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    if current_user.is_authenticated:
+        flash(f'Already logged in!')
+        return redirect(url_for('blog'))
     # Create an instance of your RegistrationForm to pass to a template
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -73,6 +78,9 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        flash(f'Already logged in!')
+        return redirect(url_for('blog'))
     # Create an instance of your RegistrationForm to pass to a template
     form = LoginForm()
     if form.validate_on_submit():
@@ -83,3 +91,11 @@ def login():
         else:
             flash('Login attempt unsuccessful. Please check email and password.', 'danger')
     return render_template('login.html', title='Login', form=form)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('blog'))
+
+
