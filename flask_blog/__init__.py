@@ -10,5 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'     # Relative path 
 db = SQLAlchemy(app)    # SQLAlchemy database instance (pass your app as an arg when creating)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
+login_manager.login_view = 'login'  # This is the function name of the route (same thing you pass into url_for)
+login_manager.login_message_category = 'info'   # Bootstrap class (blue-colored theme thing) - nicer alerts/messages
 
 from flask_blog import routes
