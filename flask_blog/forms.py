@@ -1,4 +1,6 @@
 from flask_wtf import FlaskForm  # Writing python classes that are representative of our forms (EXTEND this)
+from flask_wtf.file import FileField    # For accepting files from the user (e.g. new profile pictures)
+from flask_wtf.file import FileAllowed  # For validating file format type (e.g. ['jpg', 'png'])
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField  # The kind of form field
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError  # VALIDATORS also come as classes
@@ -33,6 +35,7 @@ class LoginForm(FlaskForm):
 class UpdateAccountForm(FlaskForm):  # Extend the FlaskForm class for form creation
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
+    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])     # Updating profile pic
     submit = SubmitField('Update')     # You need a submit button
 
     def validate_username(self, username):
